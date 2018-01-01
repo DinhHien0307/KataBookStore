@@ -20,7 +20,7 @@ class BookStore
         $counttypes = $this->countType();
 
         for (; $counttypes> 1; $counttypes = $this->countType()) {
-            $totaldiscount .= (string)$counttypes;
+            // $totaldiscount .= (string)$counttypes;
             $discountprice += $counttypes * self::PRICE_BOOK * self::DISCOUNT[$counttypes];
             $this->updateValueTypes($counttypes);
         }
