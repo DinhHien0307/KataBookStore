@@ -27,4 +27,9 @@ class BookStoreSpec extends ObjectBehavior
     {
         $this->caculate([1,1,1])->shouldBe(24.0);
     }
+
+    public function it_2_book_2_type()
+    {
+        $this->caculate([1,2])->shouldBe(15.2);
+    }
 }
