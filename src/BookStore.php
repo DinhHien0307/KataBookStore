@@ -22,14 +22,14 @@ class BookStore
         for (; $counttypes> 1; $counttypes = $this->countType()) {
             $totaldiscount[]=$counttypes;
             $discountprice += $counttypes * self::PRICE_BOOK * self::DISCOUNT[$counttypes];
-            $this->updateValueTypes($counttypes);
+            $this->updateValueTypes();
         }
 
         if (count($this->set_of_book) == 5) {
             $discount3types = $this->countTimesDiscount($totaldiscount, 3);
             $discount5types = $this->countTimesDiscount($totaldiscount, 5);
             $bountdiscount = min($discount3types, $discount5types);
-            $discountprice += $bountdiscount*0.4;
+            $discountprice += $bountdiscount*0.4;//0.4 different price beweet 35% and 40%
         }
         
         return (double)$price - $discountprice;
@@ -46,12 +46,11 @@ class BookStore
         return $timeappear;
     }
 
-    private function updateValueTypes($counttypes)
+    private function updateValueTypes()
     {
         for ($i = 1; $i <= count($this->set_of_book);  $i++) {
             if ($this->set_of_book[$i] >= 1) {
                 $this->set_of_book[$i]--;
-                $counttypes--;
             }
         }
     }
