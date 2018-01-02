@@ -79,4 +79,4 @@ class BookStore
     }
 }
 $x = new BookStore;
-$x->caculate([1,2]);
+$x->caculate([1,2,3,4,1,1]);
