@@ -13,19 +13,37 @@ class BookStore
     ];
     public function caculate($books)
     {
-        $totaldiscount = "";
+        $totaldiscount = [];
         $discountprice = 0;
         $this->set_of_book = array_count_values($books);
         $price=$this->defaulPrice();
         $counttypes = $this->countType();
 
         for (; $counttypes> 1; $counttypes = $this->countType()) {
-            // $totaldiscount .= (string)$counttypes;
+            $totaldiscount[]=$counttypes;
             $discountprice += $counttypes * self::PRICE_BOOK * self::DISCOUNT[$counttypes];
             $this->updateValueTypes($counttypes);
         }
+
+        if (count($this->set_of_book) == 5) {
+            $discount3types = $this->countTimesDiscount($totaldiscount, 3);
+            $discount5types = $this->countTimesDiscount($totaldiscount, 5);
+            $bountdiscount = min($discount3types, $discount5types);
+            $discountprice += $bountdiscount*0.4;
+        }
         
         return (double)$price - $discountprice;
+    }
+
+    private function countTimesDiscount($totaldiscount, $searchdiscount)
+    {
+        $timeappear = 0;
+        for ($i = 0; $i < count($totaldiscount); $i++) {
+            if ($totaldiscount[$i] == $searchdiscount) {
+                $timeappear++;
+            }
+        }
+        return $timeappear;
     }
 
     private function updateValueTypes($counttypes)
