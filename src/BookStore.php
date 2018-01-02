@@ -5,34 +5,37 @@ class BookStore
     private $set_of_book;
     const PRICE_BOOK = 8;
     const DISCOUNT = [
-        1 => 0,
-        2 => 0.05,
-        3 => 0.1,
-        4 => 0.2,
-        5 => 0.25
+        1 => 1,
+        2 => 0.95,
+        3 => 0.9,
+        4 => 0.80,
+        5 => 0.75
     ];
     public function caculate($books)
     {
         $totaldiscount = [];
-        $discountprice = 0;
+        $price = 0;
         $this->set_of_book = array_count_values($books);
-        $price=$this->defaulPrice();
         $counttypes = $this->countType();
 
         for (; $counttypes> 1; $counttypes = $this->countType()) {
             $totaldiscount[]=$counttypes;
-            $discountprice += $counttypes * self::PRICE_BOOK * self::DISCOUNT[$counttypes];
+            $price += $counttypes * self::PRICE_BOOK * self::DISCOUNT[$counttypes];
             $this->updateValueTypes();
+        }
+
+        if($counttypes<=1){
+            $price+=$this->defaulPrice();
         }
 
         if (count($this->set_of_book) == 5) {
             $discount3types = $this->countTimesDiscount($totaldiscount, 3);
             $discount5types = $this->countTimesDiscount($totaldiscount, 5);
             $bountdiscount = min($discount3types, $discount5types);
-            $discountprice += $bountdiscount*0.4;//0.4 different price beweet 35% and 40%
+            $price -= $bountdiscount*0.4;//0.4 different price between 35% and 40%
         }
         
-        return (double)$price - $discountprice;
+        return (double)$price;
     }
 
     private function countTimesDiscount($totaldiscount, $searchdiscount)
@@ -75,3 +78,5 @@ class BookStore
         return $price;
     }
 }
+$x = new BookStore;
+$x->caculate([1,2]);
